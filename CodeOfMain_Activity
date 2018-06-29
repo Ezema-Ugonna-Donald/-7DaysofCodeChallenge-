@@ -1,0 +1,97 @@
+package com.example.android.quizapp;
+
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.CheckBox;
+import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends AppCompatActivity {
+
+    int totalNumberOfQuestions = 4;
+    double score = 0;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+    }
+
+    /**
+     *
+     * @param isItBrazil is whether Brazil is selected as last world cup host
+     * @param isItPortugal is whether Portugal is selected as Country qualified
+     * @param isItSpain is whether Spain is selected as country qualified
+     * @param isItOneGoal is whether one is selected as number of goals scored by Lionel Messi
+     * @param isItKane is whether Kane is selected as highest goal scorer so far
+     * @param score is result of quiz participant
+     * @return final quiz score
+     */
+    private double calculateResult(boolean isItBrazil, boolean isItPortugal, boolean isItSpain, boolean isItOneGoal, boolean isItKane, double score) {
+
+        //Add 1 to score if Brazil is selected
+        if (isItBrazil) {
+            score += 1;
+
+        }
+
+        //Add 1 to score if Portugal is selected
+        if (isItPortugal) {
+            score += 0.5;
+        }
+
+        //Add 1 to score if Spain is selected
+        if (isItSpain) {
+            score += 0.5;
+        }
+
+        //Add 1 to score if one goal is selected
+        if (isItOneGoal) {
+            score += 1;
+        }
+
+        //Add 1 to score if Kane is selected
+        if (isItKane) {
+            score += 1;
+        }
+
+        //Return score of participant
+        return score;
+    }
+
+    public void submitAnswers (View view) {
+
+        // To get nickname of participant
+        TextView nickname = (TextView) findViewById(R.id.name_field);
+        String test_name = nickname.getText().toString();
+
+        //If Brazil is checked as last host of world cup
+        RadioButton brazil = (RadioButton) findViewById(R.id.brazil_radio_button);
+        boolean isBrazil = brazil.isChecked();
+
+        //If Portugal is checked as country who qualified
+        CheckBox portugal = (CheckBox) findViewById(R.id.portugal_checkbox);
+        boolean isPortugal = portugal.isChecked();
+
+        //If Spain is checked as country who qualified
+        CheckBox spain = (CheckBox) findViewById(R.id.spain_checkbox);
+        boolean isSpain = spain.isChecked();
+
+        //If one is checked as number of goals Lionel Messi has scored
+        RadioButton oneGoal = (RadioButton) findViewById(R.id.one_radio_button);
+        boolean messiOne = oneGoal.isChecked();
+
+        //If Kane is checked as highest goal scorer so far
+        RadioButton kaneHighestScorer = (RadioButton) findViewById(R.id.kane_radio_button);
+        boolean highestGoalScorer = kaneHighestScorer.isChecked();
+
+        //To calculate quiz result
+        double result = calculateResult(isBrazil, isPortugal, isSpain, messiOne, highestGoalScorer, score);
+
+        //To toast participant's score after test submission
+        Toast.makeText(this, test_name + ", you scored " + result + " out of " + totalNumberOfQuestions, Toast.LENGTH_SHORT).show();
+    }
+
+}
